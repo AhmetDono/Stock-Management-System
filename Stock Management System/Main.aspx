@@ -74,7 +74,8 @@
 
                   </div>
                   <div class="input-group pt-3 d-flex justify-content-center">
-                    <asp:Button ID="Save" class="btn btn-outline-warning btn-lg" runat="server" Text="Button" OnClick="Button1_Click" />
+                    <asp:Button ID="Save" class="btn btn-outline-warning btn-lg" runat="server" Text="Button" OnClick="Button1_Click" /> <br />
+                      <asp:Label ID="Saved_Or_Not_label" runat="server" Text=""></asp:Label>
                   </div>
                 </div>
             </div>
@@ -85,6 +86,7 @@
                 <div class="mt-3 mb-5 ps-5">
             <asp:GridView ID="Product_Grid" runat="server" OnSelectedIndexChanged="Product_Grid_SelectedIndexChanged" AutoGenerateColumns="false">
                 <Columns>
+                    <asp:BoundField DataField="ID"  HeaderText="ID"/>
                     <asp:BoundField DataField="PRODUCT_NAME"  HeaderText="Product Name"/>
                     <asp:BoundField DataField="PRODUCT_QUANTITY"  HeaderText="Product Quantity"/>
                     <asp:BoundField DataField="PRODUCT_BUY_PRICE"  HeaderText="Product Buy Price"/>
