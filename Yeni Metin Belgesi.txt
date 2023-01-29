@@ -1,0 +1,27 @@
+toptancı
+
+
+Çalışanlar:
+	->müdür(class)
+		*Customer Ve Supplier ekleyebilir/silebilir
+		*Kullanıcı ve çalışan bilgilerini değiştirebilir
+		*Mal alıp satabilir
+	->çalışan(class)
+		*mal alıp satabilir
+
+
+Stok sistemi(class)
+
+ürünler(class)
+
+Mal alan kişiler:
+	->Customer(class)
+Mal aldığımız kişiler
+	->Supplier(class)
+
+Özellikler:
+*Alınan satılan malların listesi tutulacak
+*satılan mallara gözükecek ve üstünde ayar yapılabilecek(Class)
+*Dashboard yapılacak
+		
+
