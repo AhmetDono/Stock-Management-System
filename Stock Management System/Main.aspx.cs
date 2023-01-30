@@ -40,7 +40,7 @@ namespace Stock_Management_System
         {
 
 
-            if (Product_Name.Text==null || Product_Quantity.Text==null || Product_Buy_Price.Text==null || Product_Buy_Sell.Text==null || Product_Category==null )
+            if (Product_Name.Text=="" || Product_Quantity.Text=="" || Product_Buy_Price.Text=="" || Product_Buy_Sell.Text=="" || Product_Category.Text=="" )
             {
                 Saved_Or_Not_label.Text = "No value can be left null";
             }
