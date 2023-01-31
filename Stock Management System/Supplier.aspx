@@ -95,16 +95,28 @@
             <!-- GridWiev  -->
             <div class="col-sm-8 mt-5">
                 <div class="mt-3 mb-5 ps-5">
-                 <asp:GridView ID="Supplier_Grid" runat="server" AutoGenerateColumns="false">
+                 <asp:GridView ID="Supplier_Grid"
+                     runat="server"
+                     AutoGenerateColumns="False"
+                     OnRowDeleting="Supplier_Grid_RowDeleting"
+                     DataKeyNames="ID"
+                     OnRowCancelingEdit="Supplier_Grid_RowCancelingEdit"
+                     OnRowEditing="Supplier_Grid_RowEditing"
+                     OnRowUpdated="Supplier_Grid_RowUpdated"
+                     OnRowUpdating="Supplier_Grid_RowUpdating" 
+                     >
                 <Columns>
-                    <asp:BoundField DataField="ID"  HeaderText="ID"/>
+                    <asp:BoundField DataField="ID"  HeaderText="ID" ReadOnly="True"/>
                     <asp:BoundField DataField="SUPPLIER_NAME"  HeaderText="Supplier Name"/>
                     <asp:BoundField DataField="SUPPLIER_ADDRESS"  HeaderText="Supplier Address"/>
                     <asp:BoundField DataField="SUPPLIER_PHONE"  HeaderText="Supplier Phone"/>
                     <asp:BoundField DataField="SUPPLIER_MAIL"  HeaderText="Supplier Mail"/>
                     <asp:BoundField DataField="SUPPLIER_JOIN_DATE"  HeaderText="Supplier Join Date"/>
+                    <asp:CommandField ButtonType="Button" ShowEditButton="True" />
+                    <asp:CommandField ButtonType="Button" ShowDeleteButton="True" />
                 </Columns>
             </asp:GridView>
+                    <asp:Label ID="Kayıt_Uyarı" runat="server" Text="Label"></asp:Label>
                 </div>
             </div>
 

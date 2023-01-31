@@ -74,7 +74,7 @@ namespace Stock_Management_System
                     command.Parameters.Add("@SUPPLIER_MAIL", Supplier_Mail.Text);
                     command.Parameters.Add("@SUPPLIER_JOIN_DATE", enteredDate);
                     command.ExecuteNonQuery();
-
+                    
                     //databind tekrardan
                     SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", sqlcon);
                     sqlData.Fill(dtlb);
@@ -85,6 +85,89 @@ namespace Stock_Management_System
                 {
                     //???
                 }
+            }
+        }
+
+        //silme
+        protected void Supplier_Grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            int ID = Convert.ToInt32(Supplier_Grid.DataKeys[e.RowIndex].Values[0]);
+            String query = "DELETE FROM SUPPLIER_TABLE WHERE ID='" +ID+ "' ";
+            SqlCommand command = new SqlCommand(query, sqlcon);
+            int t = command.ExecuteNonQuery();
+            if (t > 0)
+            {
+                Response.Write("<scriprt>alert('Data has Deleted')</script>");
+                Supplier_Grid.EditIndex = -1;
+                //databind tekrardan
+                SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", sqlcon);
+                sqlData.Fill(dtlb);
+                Supplier_Grid.DataSource = dtlb;
+                Supplier_Grid.DataBind();
+            }
+        }
+
+        //edit
+        protected void Supplier_Grid_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            Supplier_Grid.EditIndex = e.NewEditIndex;
+            //databind tekrardan
+            SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", sqlcon);
+            sqlData.Fill(dtlb);
+            Supplier_Grid.DataSource = dtlb;
+            Supplier_Grid.DataBind();
+        }
+
+        //editi update etme
+        protected void Supplier_Grid_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            int ID = Convert.ToInt32(Supplier_Grid.DataKeys[e.RowIndex].Values[0]);
+            string name = ((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[1].Controls[0]).Text;
+            string adress = ((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[2].Controls[0]).Text;
+            int phone = int.Parse(((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[3].Controls[0]).Text);
+            string mail = ((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[4].Controls[0]).Text;
+            DateTime join_date = DateTime.Parse(((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[5].Controls[0]).Text);
+
+            String query = "UPDATE FROM SUPPLIER_TABLE  SET(SUPPLIER_NAME='" + name + "',SUPPLIER_ADDRESS='" + adress + "',SUPPLIER_PHONE='" + Convert.ToInt64(phone) + "',SUPPLIER_MAIL='" + mail + "',SUPPLIER_JOIN_DATE='" + join_date + "')";
+            SqlCommand command = new SqlCommand(query, sqlcon);
+            int t = command.ExecuteNonQuery();
+            if (t > 0 && !IsPostBack==true)
+            {
+            Response.Write("<scriprt>alert('Data has updated')</script>");
+            Supplier_Grid.EditIndex = -1;
+            //databind tekrardan
+            SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", sqlcon);
+            sqlData.Fill(dtlb);
+            Supplier_Grid.DataSource = dtlb;
+            Supplier_Grid.DataBind();
+            }
+
+        }
+
+        protected void Supplier_Grid_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            Supplier_Grid.EditIndex = -1;
+            //databind tekrardan
+            SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", sqlcon);
+            sqlData.Fill(dtlb);
+            Supplier_Grid.DataSource = dtlb;
+            Supplier_Grid.DataBind();
+        }
+
+        protected void Supplier_Grid_RowUpdated(object sender, GridViewUpdatedEventArgs e)
+        {
+            if (e.AffectedRows < 1)
+            {
+                e.KeepInEditMode = true;
+                Kayıt_Uyarı.Text = "Row with EmployeeId = " + e.Keys[0].ToString() +
+                    " is not update due to data conflict";
+                Kayıt_Uyarı.ForeColor = System.Drawing.Color.Red;
+            }
+            else
+            {
+                Kayıt_Uyarı.Text = "Row with EmployeeId = " + e.Keys[0].ToString() +
+                    " is successfully updated";
+                Kayıt_Uyarı.ForeColor = System.Drawing.Color.Navy;
             }
         }
     }
