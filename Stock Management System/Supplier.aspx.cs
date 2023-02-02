@@ -20,18 +20,32 @@ namespace Stock_Management_System
         //SAYFA AÇILIŞINDA TABLOYU YÜKLEME
         protected void Page_Load(object sender, EventArgs e)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            if (!this.IsPostBack)
             {
-                sqlcon = returnConn.getConnection();
-                sqlcon.Open();
-
-                SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", sqlcon);
+                //open
+                returnConn.baglantı();
+                SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", returnConn.baglantı());
                 DataTable dtlb = new DataTable();
                 sqlData.Fill(dtlb);
                 Supplier_Grid.DataSource = dtlb;
                 Supplier_Grid.DataBind();
+                returnConn.baglantı_kes();
+
+
+                // (SqlConnection conn = new SqlConnection(connectionString))
+                //{
+                //sqlcon = returnConn.getConnection();
+                //sqlcon.Open();
+                //SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", sqlcon);
+                //DataTable dtlb = new DataTable();
+                //sqlData.Fill(dtlb);
+                //Supplier_Grid.DataSource = dtlb;
+                //Supplier_Grid.DataBind();
+                //sqlcon.Close();
+                //}
 
             }
+
         }
 
         protected void Supplier_Name_TextChanged(object sender, EventArgs e)
@@ -62,12 +76,11 @@ namespace Stock_Management_System
                     DateTime enteredDate = DateTime.Parse(Supplier_Join_Date.Text);
                     DateTime a = enteredDate;
 
-                    //sqlcon=conn
-                    sqlcon = returnConn.getConnection();
-                    sqlcon.Open();
+
+                    returnConn.baglantı();
                     String query = "INSERT INTO SUPPLIER_TABLE(SUPPLIER_NAME,SUPPLIER_ADDRESS,SUPPLIER_PHONE,SUPPLIER_MAIL,SUPPLIER_JOIN_DATE) VALUES (@SUPPLIER_NAME, @SUPPLIER_ADDRESS, @SUPPLIER_PHONE,@SUPPLIER_MAIL,@SUPPLIER_JOIN_DATE)";
 
-                    SqlCommand command = new SqlCommand(query,sqlcon);
+                    SqlCommand command = new SqlCommand(query, returnConn.baglantı());
                     command.Parameters.Add("@SUPPLIER_NAME", Supplier_Name.Text);
                     command.Parameters.Add("@SUPPLIER_ADDRESS", Supplier_Address.Text);
                     command.Parameters.Add("@SUPPLIER_PHONE",Convert.ToInt64(Supplier_Phone.Text));
@@ -76,10 +89,11 @@ namespace Stock_Management_System
                     command.ExecuteNonQuery();
                     
                     //databind tekrardan
-                    SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", sqlcon);
+                    SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", returnConn.baglantı());
                     sqlData.Fill(dtlb);
                     Supplier_Grid.DataSource = dtlb;
                     Supplier_Grid.DataBind();
+                    returnConn.baglantı_kes();
                 }
                 else
                 {
@@ -91,19 +105,21 @@ namespace Stock_Management_System
         //silme
         protected void Supplier_Grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
+            returnConn.baglantı();
             int ID = Convert.ToInt32(Supplier_Grid.DataKeys[e.RowIndex].Values[0]);
             String query = "DELETE FROM SUPPLIER_TABLE WHERE ID='" +ID+ "' ";
-            SqlCommand command = new SqlCommand(query, sqlcon);
+            SqlCommand command = new SqlCommand(query, returnConn.baglantı());
             int t = command.ExecuteNonQuery();
             if (t > 0)
             {
                 Response.Write("<scriprt>alert('Data has Deleted')</script>");
                 Supplier_Grid.EditIndex = -1;
                 //databind tekrardan
-                SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", sqlcon);
+                SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", returnConn.baglantı());
                 sqlData.Fill(dtlb);
                 Supplier_Grid.DataSource = dtlb;
                 Supplier_Grid.DataBind();
+                returnConn.baglantı_kes();
             }
         }
 
@@ -111,16 +127,20 @@ namespace Stock_Management_System
         protected void Supplier_Grid_RowEditing(object sender, GridViewEditEventArgs e)
         {
             Supplier_Grid.EditIndex = e.NewEditIndex;
-            //databind tekrardan
-            SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", sqlcon);
+            returnConn.baglantı();
+
+            SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", returnConn.baglantı());
+            DataTable dtlb = new DataTable();
             sqlData.Fill(dtlb);
             Supplier_Grid.DataSource = dtlb;
             Supplier_Grid.DataBind();
+            returnConn.baglantı_kes();
         }
 
         //editi update etme
         protected void Supplier_Grid_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
+            returnConn.baglantı();
             int ID = Convert.ToInt32(Supplier_Grid.DataKeys[e.RowIndex].Values[0]);
             string name = ((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[1].Controls[0]).Text;
             string adress = ((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[2].Controls[0]).Text;
@@ -128,30 +148,35 @@ namespace Stock_Management_System
             string mail = ((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[4].Controls[0]).Text;
             DateTime join_date = DateTime.Parse(((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[5].Controls[0]).Text);
 
-            String query = "UPDATE FROM SUPPLIER_TABLE  SET(SUPPLIER_NAME='" + name + "',SUPPLIER_ADDRESS='" + adress + "',SUPPLIER_PHONE='" + Convert.ToInt64(phone) + "',SUPPLIER_MAIL='" + mail + "',SUPPLIER_JOIN_DATE='" + join_date + "')";
-            SqlCommand command = new SqlCommand(query, sqlcon);
-            int t = command.ExecuteNonQuery();
-            if (t > 0 && !IsPostBack==true)
-            {
-            Response.Write("<scriprt>alert('Data has updated')</script>");
-            Supplier_Grid.EditIndex = -1;
-            //databind tekrardan
-            SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", sqlcon);
-            sqlData.Fill(dtlb);
-            Supplier_Grid.DataSource = dtlb;
-            Supplier_Grid.DataBind();
-            }
+            string query = "UPDATE SUPPLIER_TABLE SET SUPPLIER_NAME='" + name + "',SUPPLIER_ADDRESS='" + adress + "',SUPPLIER_PHONE='" + Convert.ToInt64(phone) + "',SUPPLIER_MAIL='" + mail + "',SUPPLIER_JOIN_DATE='" + join_date + "' WHERE ID='" + ID + "'";
+
+            SqlCommand command = new SqlCommand(query, returnConn.baglantı());
+                int t = command.ExecuteNonQuery();
+                if (t > 0)
+                {
+                    Response.Write("<scriprt>alert('Data has updated')</script>");
+                    Supplier_Grid.EditIndex = -1;
+                    //databind tekrardan
+                    SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", returnConn.baglantı());
+                    sqlData.Fill(dtlb);
+                    Supplier_Grid.DataSource = dtlb;
+                    Supplier_Grid.DataBind();
+                    returnConn.baglantı_kes();
+                }
+
 
         }
 
         protected void Supplier_Grid_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
+            returnConn.baglantı();
             Supplier_Grid.EditIndex = -1;
             //databind tekrardan
             SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", sqlcon);
             sqlData.Fill(dtlb);
             Supplier_Grid.DataSource = dtlb;
             Supplier_Grid.DataBind();
+            returnConn.baglantı_kes();
         }
 
         protected void Supplier_Grid_RowUpdated(object sender, GridViewUpdatedEventArgs e)

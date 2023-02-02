@@ -18,6 +18,21 @@ namespace DataBase
             return conn;
         }
 
+        public SqlConnection baglantı()
+        {
+            SqlConnection baglan = new SqlConnection("Data Source=LAPTOP-0A9SGIVO\\SQLEXPRESS;Initial Catalog='Stock Management Systems';Integrated Security=True");
+            baglan.Open();
+            return baglan;
+        }
+
+        public SqlConnection baglantı_kes()
+        {
+            SqlConnection baglan_kes = new SqlConnection("Data Source=LAPTOP-0A9SGIVO\\SQLEXPRESS;Initial Catalog='Stock Management Systems';Integrated Security=True");
+            baglan_kes.Close();
+            return baglan_kes;
+        }
+
+
     }
 
 }
