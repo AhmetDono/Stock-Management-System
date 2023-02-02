@@ -61,7 +61,7 @@
 
                 <div class="input-group pt-2">
                     <span class="input-group-text" id="inputGroup-sizing-lg">Supplier Name</span>
-                    <asp:TextBox ID="Supplier_Name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" runat="server" OnTextChanged="Supplier_Name_TextChanged" ></asp:TextBox>
+                    <asp:TextBox ID="Supplier_Name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" runat="server" ></asp:TextBox>
 
                   </div>
                   <div class="input-group pt-3">
@@ -71,7 +71,7 @@
                   </div>
                   <div class="input-group pt-3">
                     <span class="input-group-text" id="inputGroup-sizing-lg">Supplier Phone</span>
-                    <asp:TextBox ID="Supplier_Phone" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="Supplier_Phone" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" runat="server" MaxLength="10"></asp:TextBox>
 
                   </div>
                   <div class="input-group pt-3">
@@ -81,13 +81,17 @@
                   </div>
                   <div class="input-group pt-3">
                     <span class="input-group-text" id="inputGroup-sizing-lg">Supplier Join Date</span>
-                    <asp:TextBox ID="Supplier_Join_Date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="Supplier_Join_Date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" runat="server" placeholder="Date/Month/Year" ></asp:TextBox>
 
                   </div>
                   <div class="input-group pt-3 d-flex justify-content-center">
-                    <asp:Button ID="Save_Supplier" class="btn btn-outline-warning btn-lg" runat="server" Text="Save Supplier" OnClick="Save_Supplier_Click" /> <br />
-                      <asp:Label ID="Saved_Or_Not_label" runat="server" Text=""></asp:Label>
+                    <asp:Button ID="Save_Supplier" class="btn btn-outline-warning btn-lg" runat="server" Text="Save Supplier" OnClick="Save_Supplier_Click" />
+
                   </div>
+                    <div>
+                     <asp:Label ID="Saved_Or_Not_label" runat="server" Text=""></asp:Label>
+
+                    </div>
                 </div>
             </div>
             <!-- FORM END  -->
@@ -102,7 +106,6 @@
                      DataKeyNames="ID"
                      OnRowCancelingEdit="Supplier_Grid_RowCancelingEdit"
                      OnRowEditing="Supplier_Grid_RowEditing"
-                     OnRowUpdated="Supplier_Grid_RowUpdated"
                      OnRowUpdating="Supplier_Grid_RowUpdating" 
                      >
                 <Columns>
@@ -116,7 +119,6 @@
                     <asp:CommandField ButtonType="Button" ShowDeleteButton="True" />
                 </Columns>
             </asp:GridView>
-                    <asp:Label ID="Kayıt_Uyarı" runat="server" Text="Label"></asp:Label>
                 </div>
             </div>
 

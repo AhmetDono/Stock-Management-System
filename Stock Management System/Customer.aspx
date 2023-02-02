@@ -92,9 +92,13 @@
 
                   </div>
                   <div class="input-group pt-3 d-flex justify-content-center">
-                    <asp:Button ID="Save" class="btn btn-outline-warning btn-lg" runat="server" Text="Save Customer" OnClick="Save_Click" /> <br />
-                      <asp:Label ID="Saved_Or_Not_label" runat="server" Text=""></asp:Label>
+                    <asp:Button ID="Save" class="btn btn-outline-warning btn-lg" runat="server" Text="Save Customer" OnClick="Save_Click" />
+
                   </div>
+                    <div>
+                        <asp:Label ID="Saved_Or_Not_label" runat="server" Text=""></asp:Label>
+
+                    </div>
                 </div>
             </div>
             <!-- FORM END  -->
@@ -102,15 +106,24 @@
             <!-- GridWiev  -->
             <div class="col-sm-8 mt-5">
                 <div class="mt-3 mb-5 ps-5">
-            <asp:GridView ID="Customer_Grid" runat="server"  AutoGenerateColumns="false">
+            <asp:GridView ID="Customer_Grid"
+                runat="server"
+                AutoGenerateColumns="False"
+                DataKeyNames="ID"
+                OnRowCancelingEdit="Customer_Grid_RowCancelingEdit"
+                OnRowDeleting="Customer_Grid_RowDeleting"
+                OnRowEditing="Customer_Grid_RowEditing"
+                OnRowUpdating="Customer_Grid_RowUpdating">
                 <Columns>
-                    <asp:BoundField DataField="ID"  HeaderText="ID"/>
+                    <asp:BoundField DataField="ID"  HeaderText="ID" ReadOnly="True"/>
                     <asp:BoundField DataField="CUSTOMER_NAME"  HeaderText="Customer Name"/>
                     <asp:BoundField DataField="CUSTOMER_ADDRESS"  HeaderText="Customer Address"/>
                     <asp:BoundField DataField="CUSTOMER_GENDER"  HeaderText="Customer Gender"/>
                     <asp:BoundField DataField="CUSTOMER_PHONE"  HeaderText="Customer Phone"/>
                     <asp:BoundField DataField="CUSTOMER_MAIL"  HeaderText="Customer Mail"/>
                     <asp:BoundField DataField="CUSTOMER_JOIN_DATE"  HeaderText="Customer Join Date"/>
+                    <asp:CommandField ButtonType="Button" ShowEditButton="True" />
+                    <asp:CommandField ButtonType="Button" ShowDeleteButton="True" />
                 </Columns>
             </asp:GridView>
                 </div>

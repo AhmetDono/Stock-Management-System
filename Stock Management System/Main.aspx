@@ -1,16 +1,8 @@
 ﻿ü<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Main.aspx.cs" Inherits="Stock_Management_System.Main" %>
 
-<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-    <head runat="server">
-        <title>Main Page</title>
-        <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><!-- BOOTSTRAP START  -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-        <!-- BOOTSTRAP END  -->
-
-    </head>
-    <body>
-        <form id="form1" runat="server">
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head runat="seMain Page</title>
+        <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><!-- BOOTSTRAP START  --><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"><!-- BOOTSTRAP END  --></head><body><form id="form1" runat="server">
  <!-- NAV START  -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary ">
         <div class="container">
@@ -59,7 +51,7 @@
 
                 <div class="input-group pt-2">
                     <span class="input-group-text" id="inputGroup-sizing-lg">Product Name</span>
-                    <asp:TextBox ID="Product_Name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" runat="server" OnTextChanged="Product_Name_TextChanged"></asp:TextBox>
+                    <asp:TextBox ID="Product_Name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" runat="server" ></asp:TextBox>
 
                   </div>
                   <div class="input-group pt-3">
@@ -83,9 +75,13 @@
 
                   </div>
                   <div class="input-group pt-3 d-flex justify-content-center">
-                    <asp:Button ID="Save" class="btn btn-outline-warning btn-lg" runat="server" Text="Button" OnClick="Button1_Click" /> <br />
-                      <asp:Label ID="Saved_Or_Not_label" runat="server" Text=""></asp:Label>
+                    <asp:Button ID="Save" class="btn btn-outline-warning btn-lg" runat="server" Text="Button" OnClick="Button1_Click" />
+
                   </div>
+                  <div>
+                    <asp:Label ID="Saved_Or_Not_label" runat="server" Text=""></asp:Label>
+                  </div>
+
                 </div>
             </div>
             <!-- FORM END  -->
@@ -93,14 +89,23 @@
             <!-- GridWiev  -->
             <div class="col-sm-8 mt-5">
                 <div class="mt-3 mb-5 ps-5">
-            <asp:GridView ID="Product_Grid" runat="server" OnSelectedIndexChanged="Product_Grid_SelectedIndexChanged" AutoGenerateColumns="false">
+            <asp:GridView ID="Product_Grid"
+                runat="server"
+                AutoGenerateColumns="False"
+                DataKeyNames="ID"
+                OnRowCancelingEdit="Product_Grid_RowCancelingEdit"
+                OnRowDeleting="Product_Grid_RowDeleting"
+                OnRowEditing="Product_Grid_RowEditing"
+                OnRowUpdating="Product_Grid_RowUpdating">
                 <Columns>
-                    <asp:BoundField DataField="ID"  HeaderText="ID"/>
+                    <asp:BoundField DataField="ID"  HeaderText="ID" ReadOnly="True"/>
                     <asp:BoundField DataField="PRODUCT_NAME"  HeaderText="Product Name"/>
                     <asp:BoundField DataField="PRODUCT_QUANTITY"  HeaderText="Product Quantity"/>
                     <asp:BoundField DataField="PRODUCT_BUY_PRICE"  HeaderText="Product Buy Price"/>
                     <asp:BoundField DataField="PRODUCT_SELL_PRICE"  HeaderText="Product Sell Price"/>
                     <asp:BoundField DataField="PRODUCT_CATEGORY"  HeaderText="Product Category"/>
+                    <asp:CommandField ButtonType="Button" ShowEditButton="True" />
+                    <asp:CommandField ButtonType="Button" ShowDeleteButton="True" />
                 </Columns>
             </asp:GridView>
                 </div>
@@ -113,7 +118,8 @@
     <!-- FOOTER START  -->
     <div class="container fixed-bottom">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-            <p class="col-md-4 mb-0 text-muted">© 2022 Company, Inc</p>
+            <p class="col-md-4 mb-0 text-muted">© 2022 Company, Incc>
+                    <p class="col-md-4 mb-0 text-muted">© 2022 Company, Inc</p>
         
             <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
               <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>

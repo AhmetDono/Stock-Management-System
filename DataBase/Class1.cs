@@ -10,7 +10,6 @@ namespace DataBase
 {
     public class MicrosoftSQL
     {
-
         public SqlConnection getConnection()
         {
             SqlConnection conn = new SqlConnection();
@@ -31,7 +30,6 @@ namespace DataBase
             baglan_kes.Close();
             return baglan_kes;
         }
-
 
     }
 

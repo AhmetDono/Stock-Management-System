@@ -11,48 +11,29 @@ namespace Stock_Management_System
 {
     public partial class Supplier : System.Web.UI.Page
     {
-        string connectionString = "Data Source=LAPTOP-0A9SGIVO\\SQLEXPRESS;Initial Catalog='Stock Management Systems';Integrated Security=True";
-
         DataBase.MicrosoftSQL returnConn = new DataBase.MicrosoftSQL();
         SqlConnection sqlcon = new SqlConnection();
         DataTable dtlb = new DataTable();
-
-        //SAYFA AÇILIŞINDA TABLOYU YÜKLEME
+        
+        //pagelaod
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
-            {
-                //open
+            {   //load gridview on page_load
+                //open connection
                 returnConn.baglantı();
+                //databind
                 SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", returnConn.baglantı());
                 DataTable dtlb = new DataTable();
                 sqlData.Fill(dtlb);
                 Supplier_Grid.DataSource = dtlb;
                 Supplier_Grid.DataBind();
                 returnConn.baglantı_kes();
-
-
-                // (SqlConnection conn = new SqlConnection(connectionString))
-                //{
-                //sqlcon = returnConn.getConnection();
-                //sqlcon.Open();
-                //SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", sqlcon);
-                //DataTable dtlb = new DataTable();
-                //sqlData.Fill(dtlb);
-                //Supplier_Grid.DataSource = dtlb;
-                //Supplier_Grid.DataBind();
-                //sqlcon.Close();
-                //}
-
             }
 
         }
 
-        protected void Supplier_Name_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        //save data
         protected void Save_Supplier_Click(object sender, EventArgs e)
         {
             if (Supplier_Name.Text=="" || Supplier_Address.Text=="" || Supplier_Mail.Text=="" || Supplier_Phone.Text=="" || Supplier_Join_Date.Text=="")
@@ -73,12 +54,12 @@ namespace Stock_Management_System
                 }
                 else if (Supplier_Join_Date.GetType() != typeof(DateTime))
                 {
+                    returnConn.baglantı();
+
                     DateTime enteredDate = DateTime.Parse(Supplier_Join_Date.Text);
                     DateTime a = enteredDate;
 
-
-                    returnConn.baglantı();
-                    String query = "INSERT INTO SUPPLIER_TABLE(SUPPLIER_NAME,SUPPLIER_ADDRESS,SUPPLIER_PHONE,SUPPLIER_MAIL,SUPPLIER_JOIN_DATE) VALUES (@SUPPLIER_NAME, @SUPPLIER_ADDRESS, @SUPPLIER_PHONE,@SUPPLIER_MAIL,@SUPPLIER_JOIN_DATE)";
+                    string query = "INSERT INTO SUPPLIER_TABLE(SUPPLIER_NAME,SUPPLIER_ADDRESS,SUPPLIER_PHONE,SUPPLIER_MAIL,SUPPLIER_JOIN_DATE) VALUES (@SUPPLIER_NAME, @SUPPLIER_ADDRESS, @SUPPLIER_PHONE,@SUPPLIER_MAIL,@SUPPLIER_JOIN_DATE)";
 
                     SqlCommand command = new SqlCommand(query, returnConn.baglantı());
                     command.Parameters.Add("@SUPPLIER_NAME", Supplier_Name.Text);
@@ -88,7 +69,7 @@ namespace Stock_Management_System
                     command.Parameters.Add("@SUPPLIER_JOIN_DATE", enteredDate);
                     command.ExecuteNonQuery();
                     
-                    //databind tekrardan
+                    //databind
                     SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", returnConn.baglantı());
                     sqlData.Fill(dtlb);
                     Supplier_Grid.DataSource = dtlb;
@@ -97,12 +78,12 @@ namespace Stock_Management_System
                 }
                 else
                 {
-                    //???
+                    //hiç bir zaman buraya girmeyecek
                 }
             }
         }
 
-        //silme
+        //Delete
         protected void Supplier_Grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             returnConn.baglantı();
@@ -112,9 +93,10 @@ namespace Stock_Management_System
             int t = command.ExecuteNonQuery();
             if (t > 0)
             {
-                Response.Write("<scriprt>alert('Data has Deleted')</script>");
+                ClientScript.RegisterStartupScript(GetType(), "hwa", "alert('Data Has Deleted');", true);
                 Supplier_Grid.EditIndex = -1;
-                //databind tekrardan
+
+                //databind
                 SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", returnConn.baglantı());
                 sqlData.Fill(dtlb);
                 Supplier_Grid.DataSource = dtlb;
@@ -126,9 +108,10 @@ namespace Stock_Management_System
         //edit
         protected void Supplier_Grid_RowEditing(object sender, GridViewEditEventArgs e)
         {
-            Supplier_Grid.EditIndex = e.NewEditIndex;
             returnConn.baglantı();
+            Supplier_Grid.EditIndex = e.NewEditIndex;
 
+            //databind
             SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", returnConn.baglantı());
             DataTable dtlb = new DataTable();
             sqlData.Fill(dtlb);
@@ -137,7 +120,7 @@ namespace Stock_Management_System
             returnConn.baglantı_kes();
         }
 
-        //editi update etme
+        //updating
         protected void Supplier_Grid_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
             returnConn.baglantı();
@@ -154,46 +137,31 @@ namespace Stock_Management_System
                 int t = command.ExecuteNonQuery();
                 if (t > 0)
                 {
-                    Response.Write("<scriprt>alert('Data has updated')</script>");
+                    ClientScript.RegisterStartupScript(GetType(), "hwa", "alert('Data Has Updated');", true);
                     Supplier_Grid.EditIndex = -1;
-                    //databind tekrardan
+
+                    //databind
                     SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", returnConn.baglantı());
                     sqlData.Fill(dtlb);
                     Supplier_Grid.DataSource = dtlb;
                     Supplier_Grid.DataBind();
                     returnConn.baglantı_kes();
                 }
-
-
         }
 
+        //cancel update
         protected void Supplier_Grid_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
             returnConn.baglantı();
             Supplier_Grid.EditIndex = -1;
-            //databind tekrardan
-            SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", sqlcon);
+
+            //databind
+            SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", returnConn.baglantı());
             sqlData.Fill(dtlb);
             Supplier_Grid.DataSource = dtlb;
             Supplier_Grid.DataBind();
             returnConn.baglantı_kes();
         }
 
-        protected void Supplier_Grid_RowUpdated(object sender, GridViewUpdatedEventArgs e)
-        {
-            if (e.AffectedRows < 1)
-            {
-                e.KeepInEditMode = true;
-                Kayıt_Uyarı.Text = "Row with EmployeeId = " + e.Keys[0].ToString() +
-                    " is not update due to data conflict";
-                Kayıt_Uyarı.ForeColor = System.Drawing.Color.Red;
-            }
-            else
-            {
-                Kayıt_Uyarı.Text = "Row with EmployeeId = " + e.Keys[0].ToString() +
-                    " is successfully updated";
-                Kayıt_Uyarı.ForeColor = System.Drawing.Color.Navy;
-            }
-        }
     }
 }

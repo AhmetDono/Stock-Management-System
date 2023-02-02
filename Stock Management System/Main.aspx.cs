@@ -11,31 +11,27 @@ namespace Stock_Management_System
 {
     public partial class Main : System.Web.UI.Page
     {
-        string connectionString = "Data Source=LAPTOP-0A9SGIVO\\SQLEXPRESS;Initial Catalog='Stock Management Systems';Integrated Security=True";
-
         DataBase.MicrosoftSQL returnConn = new DataBase.MicrosoftSQL();
         SqlConnection sqlcon = new SqlConnection();
-        SqlCommand cmd = new SqlCommand();
         DataTable dtlb = new DataTable();
 
+        //Page_Load
         protected void Page_Load(object sender, EventArgs e)
         {
-            using(SqlConnection conn=new SqlConnection(connectionString))
-            {
-                sqlcon = returnConn.getConnection();
-                sqlcon.Open();
-
-                SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM PRODUCT_TABLE",sqlcon);
-                DataTable dtlb = new DataTable();
+            if (!this.IsPostBack)
+            {   //load gridview on page_load
+                //open connection
+                returnConn.baglantı();
+                //databind
+                SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM PRODUCT_TABLE", returnConn.baglantı());
                 sqlData.Fill(dtlb);
                 Product_Grid.DataSource = dtlb;
                 Product_Grid.DataBind();
-
+                returnConn.baglantı_kes();
             }
-
         }
 
-        //kayıt butonu
+        //Save data
         protected void Button1_Click(object sender, EventArgs e)
         {
 
@@ -58,18 +54,24 @@ namespace Stock_Management_System
                 }
 
                 else
-                {   
-                    //sqlcon=conn
-                    sqlcon = returnConn.getConnection();
-                    sqlcon.Open();
-                    cmd = new SqlCommand("INSERT INTO PRODUCT_TABLE(PRODUCT_NAME,PRODUCT_QUANTITY,PRODUCT_BUY_PRICE,PRODUCT_SELL_PRICE,PRODUCT_CATEGORY) VALUES('" + Product_Name.Text + "' ,'" + int.Parse(Product_Quantity.Text) + "' ,'" + int.Parse(Product_Buy_Price.Text) + "' ,'" + int.Parse(Product_Buy_Sell.Text) + "' ,'" + Product_Category.Text + "' )", sqlcon);
-                    cmd.ExecuteNonQuery();
+                {
+                    returnConn.baglantı();
+                    string query = "INSERT INTO PRODUCT_TABLE(PRODUCT_NAME,PRODUCT_QUANTITY,PRODUCT_BUY_PRICE,PRODUCT_SELL_PRICE,PRODUCT_CATEGORY) VALUES (@PRODUCT_NAME,@PRODUCT_QUANTITY, @PRODUCT_BUY_PRICE,@PRODUCT_SELL_PRICE,@PRODUCT_CATEGORY)";
 
-                    //databind tekrardan
-                    SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM PRODUCT_TABLE", sqlcon);
+                    SqlCommand command = new SqlCommand(query, returnConn.baglantı());
+                    command.Parameters.Add("@PRODUCT_NAME", Product_Name.Text);
+                    command.Parameters.Add("@PRODUCT_QUANTITY", int.Parse(Product_Quantity.Text));
+                    command.Parameters.Add("@PRODUCT_BUY_PRICE", int.Parse(Product_Buy_Price.Text));
+                    command.Parameters.Add("@PRODUCT_SELL_PRICE", int.Parse(Product_Buy_Sell.Text));
+                    command.Parameters.Add("@PRODUCT_CATEGORY", Product_Category.Text);
+                    command.ExecuteNonQuery();
+
+                    //databind
+                    SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM PRODUCT_TABLE", returnConn.baglantı());
                     sqlData.Fill(dtlb);
                     Product_Grid.DataSource = dtlb;
                     Product_Grid.DataBind();
+                    returnConn.baglantı_kes();
 
                     Product_Name.Text = "";
                     Product_Quantity.Text = "";
@@ -83,14 +85,84 @@ namespace Stock_Management_System
 
         }
 
-        protected void Product_Name_TextChanged(object sender, EventArgs e)
+        //delete
+        protected void Product_Grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            
+            returnConn.baglantı();
+            int ID = Convert.ToInt32(Product_Grid.DataKeys[e.RowIndex].Values[0]);
+            String query = "DELETE FROM PRODUCT_TABLE WHERE ID='" + ID + "' ";
+            SqlCommand command = new SqlCommand(query, returnConn.baglantı());
+            int t = command.ExecuteNonQuery();
+            if (t > 0)
+            {
+                ClientScript.RegisterStartupScript(GetType(), "hwa", "alert('Data Has Deleted');", true);
+                Product_Grid.EditIndex = -1;
+
+                //databind
+                SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM PRODUCT_TABLE", returnConn.baglantı());
+                sqlData.Fill(dtlb);
+                Product_Grid.DataSource = dtlb;
+                Product_Grid.DataBind();
+                returnConn.baglantı_kes();
+            }
         }
 
-        protected void Product_Grid_SelectedIndexChanged(object sender, EventArgs e)
+        //edit
+        protected void Product_Grid_RowEditing(object sender, GridViewEditEventArgs e)
         {
+            returnConn.baglantı();
+            Product_Grid.EditIndex = e.NewEditIndex;
 
+            //databind
+            SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM PRODUCT_TABLE", returnConn.baglantı());
+            DataTable dtlb = new DataTable();
+            sqlData.Fill(dtlb);
+            Product_Grid.DataSource = dtlb;
+            Product_Grid.DataBind();
+            returnConn.baglantı_kes();
+        }
+
+        //update
+        protected void Product_Grid_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            returnConn.baglantı();
+            int ID = Convert.ToInt32(Product_Grid.DataKeys[e.RowIndex].Values[0]);
+            string product_name = ((TextBox)Product_Grid.Rows[e.RowIndex].Cells[1].Controls[0]).Text;
+            int product_quantity = int.Parse(((TextBox)Product_Grid.Rows[e.RowIndex].Cells[2].Controls[0]).Text);
+            int product_buy_price = int.Parse(((TextBox)Product_Grid.Rows[e.RowIndex].Cells[3].Controls[0]).Text);
+            int product_sell_price = int.Parse(((TextBox)Product_Grid.Rows[e.RowIndex].Cells[4].Controls[0]).Text);
+            string product_category = ((TextBox)Product_Grid.Rows[e.RowIndex].Cells[5].Controls[0]).Text;
+
+            string query = "UPDATE PRODUCT_TABLE SET PRODUCT_NAME='" + product_name + "',PRODUCT_QUANTITY='" + product_quantity + "',PRODUCT_BUY_PRICE='" + product_buy_price + "',PRODUCT_SELL_PRICE='" + product_sell_price + "',PRODUCT_CATEGORY='" + product_category + "' WHERE ID='" + ID + "'";
+
+            SqlCommand command = new SqlCommand(query, returnConn.baglantı());
+            int t = command.ExecuteNonQuery();
+            if (t > 0)
+            {
+                ClientScript.RegisterStartupScript(GetType(), "hwa", "alert('Data Has Updated');", true);
+                Product_Grid.EditIndex = -1;
+
+                //databind
+                SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM PRODUCT_TABLE", returnConn.baglantı());
+                DataTable dtlb = new DataTable();
+                sqlData.Fill(dtlb);
+                Product_Grid.DataSource = dtlb;
+                Product_Grid.DataBind();
+                returnConn.baglantı_kes();
+            }
+        }
+
+        //cancel edit
+        protected void Product_Grid_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            returnConn.baglantı();
+            Product_Grid.EditIndex = -1;
+            //databind
+            SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM PRODUCT_TABLE", returnConn.baglantı());
+            sqlData.Fill(dtlb);
+            Product_Grid.DataSource = dtlb;
+            Product_Grid.DataBind();
+            returnConn.baglantı_kes();
         }
     }
 }
