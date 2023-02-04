@@ -97,7 +97,7 @@
             <!-- FORM END  -->
 
             <!-- GridWiev  -->
-            <div class="col-sm-8 mt-5">
+            <div class="col-sm-8 mt-5" style="overflow-x:auto" >
                 <div class="mt-3 mb-5 ps-5">
                  <asp:GridView ID="Supplier_Grid"
                      runat="server"

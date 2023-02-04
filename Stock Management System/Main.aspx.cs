@@ -12,7 +12,6 @@ namespace Stock_Management_System
     public partial class Main : System.Web.UI.Page
     {
         DataBase.MicrosoftSQL returnConn = new DataBase.MicrosoftSQL();
-        SqlConnection sqlcon = new SqlConnection();
         DataTable dtlb = new DataTable();
 
         //Page_Load

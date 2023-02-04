@@ -127,11 +127,11 @@ namespace Stock_Management_System
             int ID = Convert.ToInt32(Supplier_Grid.DataKeys[e.RowIndex].Values[0]);
             string name = ((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[1].Controls[0]).Text;
             string adress = ((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[2].Controls[0]).Text;
-            int phone = int.Parse(((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[3].Controls[0]).Text);
+            long phone = Convert.ToInt64(((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[3].Controls[0]).Text);
             string mail = ((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[4].Controls[0]).Text;
             DateTime join_date = DateTime.Parse(((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[5].Controls[0]).Text);
 
-            string query = "UPDATE SUPPLIER_TABLE SET SUPPLIER_NAME='" + name + "',SUPPLIER_ADDRESS='" + adress + "',SUPPLIER_PHONE='" + Convert.ToInt64(phone) + "',SUPPLIER_MAIL='" + mail + "',SUPPLIER_JOIN_DATE='" + join_date + "' WHERE ID='" + ID + "'";
+            string query = "UPDATE SUPPLIER_TABLE SET SUPPLIER_NAME='" + name + "',SUPPLIER_ADDRESS='" + adress + "',SUPPLIER_PHONE='" + phone + "',SUPPLIER_MAIL='" + mail + "',SUPPLIER_JOIN_DATE='" + join_date + "' WHERE ID='" + ID + "'";
 
             SqlCommand command = new SqlCommand(query, returnConn.baglantı());
                 int t = command.ExecuteNonQuery();

@@ -1,8 +1,16 @@
 ﻿ü<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Main.aspx.cs" Inherits="Stock_Management_System.Main" %>
 
-<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head runat="seMain Page</title>
-        <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><!-- BOOTSTRAP START  --><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"><!-- BOOTSTRAP END  --></head><body><form id="form1" runat="server">
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+    <head runat="server">
+        <title>Main Page</title>
+        <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- BOOTSTRAP START  -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <!-- BOOTSTRAP END  -->
+    </head>
+    <body>
+        <form id="form1" runat="server">
  <!-- NAV START  -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary ">
         <div class="container">
@@ -87,7 +95,7 @@
             <!-- FORM END  -->
 
             <!-- GridWiev  -->
-            <div class="col-sm-8 mt-5">
+            <div class="col-sm-8 mt-5" style="overflow-x:auto" >
                 <div class="mt-3 mb-5 ps-5">
             <asp:GridView ID="Product_Grid"
                 runat="server"
@@ -110,7 +118,6 @@
             </asp:GridView>
                 </div>
             </div>
-
         </div>
     </div>
 
