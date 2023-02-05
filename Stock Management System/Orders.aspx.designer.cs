@@ -150,6 +150,24 @@ namespace Stock_Management_System
         protected global::System.Web.UI.WebControls.TextBox Product_Category;
 
         /// <summary>
+        /// Save_Order control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Save_Order;
+
+        /// <summary>
+        /// Saved_Or_Not_label control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Saved_Or_Not_label;
+
+        /// <summary>
         /// Orders_Grid control.
         /// </summary>
         /// <remarks>

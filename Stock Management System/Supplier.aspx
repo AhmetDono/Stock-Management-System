@@ -79,11 +79,6 @@
                     <asp:TextBox ID="Supplier_Mail" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" runat="server"></asp:TextBox>
 
                   </div>
-                  <div class="input-group pt-3">
-                    <span class="input-group-text" id="inputGroup-sizing-lg">Supplier Join Date</span>
-                    <asp:TextBox ID="Supplier_Join_Date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" runat="server" placeholder="Date/Month/Year" ></asp:TextBox>
-
-                  </div>
                   <div class="input-group pt-3 d-flex justify-content-center">
                     <asp:Button ID="Save_Supplier" class="btn btn-outline-warning btn-lg" runat="server" Text="Save Supplier" OnClick="Save_Supplier_Click" />
 
@@ -114,7 +109,7 @@
                     <asp:BoundField DataField="SUPPLIER_ADDRESS"  HeaderText="Supplier Address"/>
                     <asp:BoundField DataField="SUPPLIER_PHONE"  HeaderText="Supplier Phone"/>
                     <asp:BoundField DataField="SUPPLIER_MAIL"  HeaderText="Supplier Mail"/>
-                    <asp:BoundField DataField="SUPPLIER_JOIN_DATE"  HeaderText="Supplier Join Date"/>
+                    <asp:BoundField DataField="SUPPLIER_JOIN_DATE"  HeaderText="Supplier Join Date" ReadOnly="True"/>
                     <asp:CommandField ButtonType="Button" ShowEditButton="True" />
                     <asp:CommandField ButtonType="Button" ShowDeleteButton="True" />
                 </Columns>

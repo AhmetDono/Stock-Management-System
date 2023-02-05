@@ -30,56 +30,71 @@ namespace Stock_Management_System
             }
         }
 
+
+        //clear textbox
+        void ClearInputs(ControlCollection ctrls)
+        {
+            foreach (Control ctrl in ctrls)
+            {
+                if (ctrl is TextBox)
+                    ((TextBox)ctrl).Text = string.Empty;
+                ClearInputs(ctrl.Controls);
+            }
+        }
+
         //Save data
         protected void Button1_Click(object sender, EventArgs e)
         {
-
-
-            if (Product_Name.Text=="" || Product_Quantity.Text=="" || Product_Buy_Price.Text=="" || Product_Buy_Sell.Text=="" || Product_Category.Text=="" )
+            try
             {
-                Saved_Or_Not_label.Text = "No value can be left null";
-            }
-
-            else
-            {
-                if (Product_Name.Text.Length>50 || Product_Category.Text.Length>50 )
+                if (Product_Name.Text == "" || Product_Quantity.Text == "" || Product_Buy_Price.Text == "" || Product_Buy_Sell.Text == "" || Product_Category.Text == "")
                 {
-                    Saved_Or_Not_label.Text = "Product Name Or Product Category Name can't be more than 50 letter";
-                }
-
-                else if (int.Parse(Product_Quantity.Text)<=0 || int.Parse(Product_Buy_Price.Text)<=0 || int.Parse(Product_Buy_Sell.Text)<=0)
-                {
-                    Saved_Or_Not_label.Text = "Product Quantity/Buy Price/Sell Price can't be equal or less than 0";
+                    Saved_Or_Not_label.Text = "No value can be left null";
                 }
 
                 else
                 {
-                    returnConn.baglantı();
-                    string query = "INSERT INTO PRODUCT_TABLE(PRODUCT_NAME,PRODUCT_QUANTITY,PRODUCT_BUY_PRICE,PRODUCT_SELL_PRICE,PRODUCT_CATEGORY) VALUES (@PRODUCT_NAME,@PRODUCT_QUANTITY, @PRODUCT_BUY_PRICE,@PRODUCT_SELL_PRICE,@PRODUCT_CATEGORY)";
+                    if (Product_Name.Text.Length > 50 || Product_Category.Text.Length > 50)
+                    {
+                        Saved_Or_Not_label.Text = "Product Name Or Product Category Name can't be more than 50 letter";
+                    }
 
-                    SqlCommand command = new SqlCommand(query, returnConn.baglantı());
-                    command.Parameters.Add("@PRODUCT_NAME", Product_Name.Text);
-                    command.Parameters.Add("@PRODUCT_QUANTITY", int.Parse(Product_Quantity.Text));
-                    command.Parameters.Add("@PRODUCT_BUY_PRICE", int.Parse(Product_Buy_Price.Text));
-                    command.Parameters.Add("@PRODUCT_SELL_PRICE", int.Parse(Product_Buy_Sell.Text));
-                    command.Parameters.Add("@PRODUCT_CATEGORY", Product_Category.Text);
-                    command.ExecuteNonQuery();
+                    else if (int.Parse(Product_Quantity.Text) <= 0 || int.Parse(Product_Buy_Price.Text) <= 0 || int.Parse(Product_Buy_Sell.Text) <= 0)
+                    {
+                        Saved_Or_Not_label.Text = "Product Quantity/Buy Price/Sell Price can't be equal or less than 0";
+                    }
 
-                    //databind
-                    SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM PRODUCT_TABLE", returnConn.baglantı());
-                    sqlData.Fill(dtlb);
-                    Product_Grid.DataSource = dtlb;
-                    Product_Grid.DataBind();
-                    returnConn.baglantı_kes();
+                    else
+                    {
+                        returnConn.baglantı();
+                        string query = "INSERT INTO PRODUCT_TABLE(PRODUCT_NAME,PRODUCT_QUANTITY,PRODUCT_BUY_PRICE,PRODUCT_SELL_PRICE,PRODUCT_CATEGORY) VALUES (@PRODUCT_NAME,@PRODUCT_QUANTITY, @PRODUCT_BUY_PRICE,@PRODUCT_SELL_PRICE,@PRODUCT_CATEGORY)";
 
-                    Product_Name.Text = "";
-                    Product_Quantity.Text = "";
-                    Product_Buy_Price.Text = "";
-                    Product_Buy_Sell.Text = "";
-                    Product_Category.Text = "";
-                    Saved_Or_Not_label.Text = "successfully saved";
+                        SqlCommand command = new SqlCommand(query, returnConn.baglantı());
+                        command.Parameters.Add("@PRODUCT_NAME", Product_Name.Text);
+                        command.Parameters.Add("@PRODUCT_QUANTITY", int.Parse(Product_Quantity.Text));
+                        command.Parameters.Add("@PRODUCT_BUY_PRICE", int.Parse(Product_Buy_Price.Text));
+                        command.Parameters.Add("@PRODUCT_SELL_PRICE", int.Parse(Product_Buy_Sell.Text));
+                        command.Parameters.Add("@PRODUCT_CATEGORY", Product_Category.Text);
+                        command.ExecuteNonQuery();
 
+                        //databind
+                        SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM PRODUCT_TABLE", returnConn.baglantı());
+                        sqlData.Fill(dtlb);
+                        Product_Grid.DataSource = dtlb;
+                        Product_Grid.DataBind();
+                        returnConn.baglantı_kes();
+
+                        //clear textbox
+                        ClearInputs(Page.Controls);
+
+                        Saved_Or_Not_label.Text = "successfully saved";
+
+                    }
                 }
+            }
+            catch (FormatException)
+            {
+                Saved_Or_Not_label.Text = "Invalid Value";
             }
 
         }

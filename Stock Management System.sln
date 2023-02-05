@@ -5,12 +5,6 @@ VisualStudioVersion = 16.0.32901.82
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stock Management System", "Stock Management System\Stock Management System.csproj", "{36A645E8-9B5E-4224-97F5-E1CC4440CB72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Personnels", "personnels\Personnels.csproj", "{8807157E-F3F7-4996-B9E0-F655B7A0A7CD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users_", "Users_\Users_.csproj", "{3720776C-028E-4F8B-884B-428C9FE18853}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product And Orders", "Orders\Product And Orders.csproj", "{ECC66D23-C674-45A3-93F4-944A03A538F9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBase", "DataBase\DataBase.csproj", "{1FF49C67-1C5A-48C4-9A26-420B9ABA1EAD}"
 EndProject
 Global
@@ -23,18 +17,6 @@ Global
 		{36A645E8-9B5E-4224-97F5-E1CC4440CB72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36A645E8-9B5E-4224-97F5-E1CC4440CB72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36A645E8-9B5E-4224-97F5-E1CC4440CB72}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8807157E-F3F7-4996-B9E0-F655B7A0A7CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8807157E-F3F7-4996-B9E0-F655B7A0A7CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8807157E-F3F7-4996-B9E0-F655B7A0A7CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8807157E-F3F7-4996-B9E0-F655B7A0A7CD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3720776C-028E-4F8B-884B-428C9FE18853}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3720776C-028E-4F8B-884B-428C9FE18853}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3720776C-028E-4F8B-884B-428C9FE18853}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3720776C-028E-4F8B-884B-428C9FE18853}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ECC66D23-C674-45A3-93F4-944A03A538F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ECC66D23-C674-45A3-93F4-944A03A538F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ECC66D23-C674-45A3-93F4-944A03A538F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ECC66D23-C674-45A3-93F4-944A03A538F9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1FF49C67-1C5A-48C4-9A26-420B9ABA1EAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1FF49C67-1C5A-48C4-9A26-420B9ABA1EAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FF49C67-1C5A-48C4-9A26-420B9ABA1EAD}.Release|Any CPU.ActiveCfg = Release|Any CPU

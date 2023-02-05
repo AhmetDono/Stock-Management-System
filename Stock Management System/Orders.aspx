@@ -134,19 +134,30 @@
         <div class="row d-flex justify-content-center" style="overflow-x:auto" >
            <!-- TABLE START  -->
            <div class="col-sm-8 mt-5">
+                <div class="container" style="  height: 50px; position: relative;">
+                  <div class="vertical-center" style="  margin-left: 40%; position: absolute;">
+                    <asp:Button ID="Save_Order" class="btn btn-outline-warning btn-lg" runat="server" Text="SAVE ORDER" OnClick="Save_Order_Click"/>
+                      <br />
+                      <asp:Label ID="Saved_Or_Not_label" runat="server" Text=""></asp:Label>
+                  </div>
+                </div>
             <div class="mt-3 mb-5 ps-5">
             <asp:GridView ID="Orders_Grid"
                 runat="server"
                 AutoGenerateColumns="False"
-                DataKeyNames="ORDER_NUMBER">
+                DataKeyNames="ORDER_NUMBER"
+                OnRowDeleting="Orders_Grid_RowDeleting1">
                 <Columns>
                     <asp:BoundField DataField="ORDER_NUMBER"  HeaderText="Order Number" ReadOnly="True"/>
+                    <asp:BoundField DataField="ORDER_CUSTOMER_NAME"  HeaderText="Customer Name"/>
+                    <asp:BoundField DataField="ORDER_CUSTOMER_ADDRESS"  HeaderText="Cutomer Address"/>
+                    <asp:BoundField DataField="ORDER_CUSTOMER_CONTACT"  HeaderText="Cutomer Contact Info"/>
                     <asp:BoundField DataField="ORDER_PRODUCT_NAME"  HeaderText="Product Name"/>
                     <asp:BoundField DataField="ORDER_PRODUCT_QUANTITY"  HeaderText="Product Quantity"/>
                     <asp:BoundField DataField="ORDER_PRODUCT_BUY_PRICE"  HeaderText="Product Buy Price"/>
                     <asp:BoundField DataField="ORDER_PRODUCT_SELL_PRICE"  HeaderText="Product Sell Price"/>
                     <asp:BoundField DataField="ORDER_PRODUCT_CATEGORY"  HeaderText="Product Category"/>
-                    <asp:CommandField ButtonType="Button" ShowEditButton="True" />
+                    <asp:BoundField DataField="ORDER_PRODUCT_GAIN"  HeaderText="Product Total Gain"/>
                     <asp:CommandField ButtonType="Button" ShowDeleteButton="True" />
                 </Columns>
             </asp:GridView>

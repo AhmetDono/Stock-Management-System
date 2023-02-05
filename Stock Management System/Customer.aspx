@@ -86,11 +86,6 @@
                     <asp:TextBox ID="Customer_Maıl" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" runat="server"></asp:TextBox>
 
                   </div>
-                  <div class="input-group pt-3">
-                    <span class="input-group-text" id="inputGroup-sizing-lg">Customer Join Date</span>
-                    <asp:TextBox ID="Customer_Join_Date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" runat="server"></asp:TextBox>
-
-                  </div>
                   <div class="input-group pt-3 d-flex justify-content-center">
                     <asp:Button ID="Save" class="btn btn-outline-warning btn-lg" runat="server" Text="Save Customer" OnClick="Save_Click" />
 

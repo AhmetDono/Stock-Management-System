@@ -33,54 +33,67 @@ namespace Stock_Management_System
 
         }
 
+        //clear textbox
+        void ClearInputs(ControlCollection ctrls)
+        {
+            foreach (Control ctrl in ctrls)
+            {
+                if (ctrl is TextBox)
+                    ((TextBox)ctrl).Text = string.Empty;
+                ClearInputs(ctrl.Controls);
+            }
+        }
+
         //save data
         protected void Save_Supplier_Click(object sender, EventArgs e)
         {
-            if (Supplier_Name.Text=="" || Supplier_Address.Text=="" || Supplier_Mail.Text=="" || Supplier_Phone.Text=="" || Supplier_Join_Date.Text=="")
+            try
             {
-                Saved_Or_Not_label.Text = "No value can be left null";
-            }
-
-            else
-            {
-                if (Supplier_Name.Text.Length > 50 || Supplier_Address.Text.Length > 200 || Supplier_Mail.Text.Length > 50)
+                if (Supplier_Name.Text == "" || Supplier_Address.Text == "" || Supplier_Mail.Text == "" || Supplier_Phone.Text == "")
                 {
-                    Saved_Or_Not_label.Text = "Supplier Name Supplier Mail can't be more than 50 letter and Supplier Adress can't be more than 200 letter";
+                    Saved_Or_Not_label.Text = "No value can be left null";
                 }
-                                                              
-                else if (Convert.ToInt64(Supplier_Phone.Text) > 10000000000 || Convert.ToInt64(Supplier_Phone.Text) < 999999999)
-                {
-                    Saved_Or_Not_label.Text = "Phone number must be 10 digits";
-                }
-                else if (Supplier_Join_Date.GetType() != typeof(DateTime))
-                {
-                    returnConn.baglantı();
 
-                    DateTime enteredDate = DateTime.Parse(Supplier_Join_Date.Text);
-                    DateTime a = enteredDate;
-
-                    string query = "INSERT INTO SUPPLIER_TABLE(SUPPLIER_NAME,SUPPLIER_ADDRESS,SUPPLIER_PHONE,SUPPLIER_MAIL,SUPPLIER_JOIN_DATE) VALUES (@SUPPLIER_NAME, @SUPPLIER_ADDRESS, @SUPPLIER_PHONE,@SUPPLIER_MAIL,@SUPPLIER_JOIN_DATE)";
-
-                    SqlCommand command = new SqlCommand(query, returnConn.baglantı());
-                    command.Parameters.Add("@SUPPLIER_NAME", Supplier_Name.Text);
-                    command.Parameters.Add("@SUPPLIER_ADDRESS", Supplier_Address.Text);
-                    command.Parameters.Add("@SUPPLIER_PHONE",Convert.ToInt64(Supplier_Phone.Text));
-                    command.Parameters.Add("@SUPPLIER_MAIL", Supplier_Mail.Text);
-                    command.Parameters.Add("@SUPPLIER_JOIN_DATE", enteredDate);
-                    command.ExecuteNonQuery();
-                    
-                    //databind
-                    SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", returnConn.baglantı());
-                    sqlData.Fill(dtlb);
-                    Supplier_Grid.DataSource = dtlb;
-                    Supplier_Grid.DataBind();
-                    returnConn.baglantı_kes();
-                }
                 else
                 {
-                    //hiç bir zaman buraya girmeyecek
+                    if (Supplier_Name.Text.Length > 50 || Supplier_Address.Text.Length > 200 || Supplier_Mail.Text.Length > 50)
+                    {
+                        Saved_Or_Not_label.Text = "Supplier Name Supplier Mail can't be more than 50 letter and Supplier Adress can't be more than 200 letter";
+                    }
+
+                    else if (Convert.ToInt64(Supplier_Phone.Text) > 10000000000 || Convert.ToInt64(Supplier_Phone.Text) < 999999999)
+                    {
+                        Saved_Or_Not_label.Text = "Phone number must be 10 digits";
+                    }
+                    else
+                    {
+                        returnConn.baglantı();
+
+                        string query = "INSERT INTO SUPPLIER_TABLE(SUPPLIER_NAME,SUPPLIER_ADDRESS,SUPPLIER_PHONE,SUPPLIER_MAIL,SUPPLIER_JOIN_DATE) VALUES (@SUPPLIER_NAME, @SUPPLIER_ADDRESS, @SUPPLIER_PHONE,@SUPPLIER_MAIL,@SUPPLIER_JOIN_DATE)";
+
+                        SqlCommand command = new SqlCommand(query, returnConn.baglantı());
+                        command.Parameters.Add("@SUPPLIER_NAME", Supplier_Name.Text);
+                        command.Parameters.Add("@SUPPLIER_ADDRESS", Supplier_Address.Text);
+                        command.Parameters.Add("@SUPPLIER_PHONE", Convert.ToInt64(Supplier_Phone.Text));
+                        command.Parameters.Add("@SUPPLIER_MAIL", Supplier_Mail.Text);
+                        command.Parameters.Add("@SUPPLIER_JOIN_DATE", DateTime.Now.ToString("dd/MM/yyyy"));
+                        command.ExecuteNonQuery();
+
+                        //databind
+                        SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM SUPPLIER_TABLE", returnConn.baglantı());
+                        sqlData.Fill(dtlb);
+                        Supplier_Grid.DataSource = dtlb;
+                        Supplier_Grid.DataBind();
+                        ClearInputs(Page.Controls);
+                        returnConn.baglantı_kes();
+                    }
                 }
             }
+            catch (FormatException)
+            {
+                Saved_Or_Not_label.Text = "Invalid Value";
+            }
+
         }
 
         //Delete
@@ -129,9 +142,8 @@ namespace Stock_Management_System
             string adress = ((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[2].Controls[0]).Text;
             long phone = Convert.ToInt64(((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[3].Controls[0]).Text);
             string mail = ((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[4].Controls[0]).Text;
-            DateTime join_date = DateTime.Parse(((TextBox)Supplier_Grid.Rows[e.RowIndex].Cells[5].Controls[0]).Text);
 
-            string query = "UPDATE SUPPLIER_TABLE SET SUPPLIER_NAME='" + name + "',SUPPLIER_ADDRESS='" + adress + "',SUPPLIER_PHONE='" + phone + "',SUPPLIER_MAIL='" + mail + "',SUPPLIER_JOIN_DATE='" + join_date + "' WHERE ID='" + ID + "'";
+            string query = "UPDATE SUPPLIER_TABLE SET SUPPLIER_NAME='" + name + "',SUPPLIER_ADDRESS='" + adress + "',SUPPLIER_PHONE='" + phone + "',SUPPLIER_MAIL='" + mail + "' WHERE ID='" + ID + "'";
 
             SqlCommand command = new SqlCommand(query, returnConn.baglantı());
                 int t = command.ExecuteNonQuery();

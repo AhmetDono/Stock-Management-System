@@ -126,18 +126,6 @@
       <Project>{1ff49c67-1c5a-48c4-9a26-420b9aba1ead}</Project>
       <Name>DataBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Orders\Product And Orders.csproj">
-      <Project>{ecc66d23-c674-45a3-93f4-944a03a538f9}</Project>
-      <Name>Product And Orders</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\personnels\Personnels.csproj">
-      <Project>{8807157e-f3f7-4996-b9e0-f655b7a0a7cd}</Project>
-      <Name>Personnels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Users_\Users_.csproj">
-      <Project>{3720776c-028e-4f8b-884b-428c9fe18853}</Project>
-      <Name>Users_</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -32,54 +32,68 @@ namespace Stock_Management_System
             }
         }
 
+        //clear textbox
+        void ClearInputs(ControlCollection ctrls)
+        {
+            foreach (Control ctrl in ctrls)
+            {
+                if (ctrl is TextBox)
+                    ((TextBox)ctrl).Text = string.Empty;
+                ClearInputs(ctrl.Controls);
+            }
+        }
+
         //save data
         protected void Save_Click(object sender, EventArgs e)
         {
-            if (Customer_Name.Text == "" || Customer_Address.Text == "" || Customer_Gender.Text == "" || Customer_Maıl.Text == "")
+            try
             {
-                Saved_Or_Not_label.Text = "No value can be left null";
+                if (Customer_Name.Text == "" || Customer_Address.Text == "" || Customer_Gender.Text == "" || Customer_Maıl.Text == "")
+                {
+                    Saved_Or_Not_label.Text = "No value can be left null";
+                }
+
+                else if (Customer_Name.Text.Length > 50 || Customer_Address.Text.Length > 200 || Customer_Maıl.Text.Length > 50)
+                {
+                    Saved_Or_Not_label.Text = "Name can't be more than 50 letter and Address can't be more than 200 letter";
+                }
+
+                else if (Convert.ToInt64(Customer_Phone.Text) > 10000000000 || Convert.ToInt64(Customer_Phone.Text) < 999999999)
+                {
+                    Saved_Or_Not_label.Text = "Phone number must be 10 digits";
+                }
+
+                else
+                {
+                    //sql connection
+                    returnConn.baglantı();
+
+                    string query = "INSERT INTO CUSTOMER_TABLE(CUSTOMER_NAME,CUSTOMER_ADDRESS,CUSTOMER_GENDER,CUSTOMER_PHONE,CUSTOMER_MAIL,CUSTOMER_JOIN_DATE) VALUES (@CUSTOMER_NAME,@CUSTOMER_ADDRESS,@CUSTOMER_GENDER,@CUSTOMER_PHONE,@SCUSTOMER_MAIL,@CUSTOMER_JOIN_DATE)";
+
+                    SqlCommand command = new SqlCommand(query, returnConn.baglantı());
+                    command.Parameters.Add("@CUSTOMER_NAME", Customer_Name.Text);
+                    command.Parameters.Add("@CUSTOMER_ADDRESS", Customer_Address.Text);
+                    //sorun var çöz
+                    command.Parameters.Add("@CUSTOMER_GENDER", Customer_Gender.SelectedItem.Value);
+                    command.Parameters.Add("@CUSTOMER_PHONE", Convert.ToInt64(Customer_Phone.Text));
+                    command.Parameters.Add("@SCUSTOMER_MAIL", Customer_Maıl.Text);
+                    command.Parameters.Add("@CUSTOMER_JOIN_DATE", DateTime.Now.ToString("dd/MM/yyyy"));
+                    command.ExecuteNonQuery();
+
+                    //databind tekrardan
+                    SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM CUSTOMER_TABLE", returnConn.baglantı());
+                    sqlData.Fill(dtlb);
+                    Customer_Grid.DataSource = dtlb;
+                    Customer_Grid.DataBind();
+                    ClearInputs(Page.Controls);
+                    returnConn.baglantı_kes();
+                }
+            }
+            catch (FormatException)
+            {
+                Saved_Or_Not_label.Text = "Invalid Value";
             }
 
-            else if (Customer_Name.Text.Length>50 || Customer_Address.Text.Length>200 ||Customer_Maıl.Text.Length>50)
-            {
-                Saved_Or_Not_label.Text = "Name can't be more than 50 letter and Address can't be more than 200 letter";
-            }
-
-            else if (Convert.ToInt64(Customer_Phone.Text) > 10000000000 || Convert.ToInt64(Customer_Phone.Text) < 999999999)
-            {
-                Saved_Or_Not_label.Text = "Phone number must be 10 digits";
-            }
-
-            else if (Customer_Join_Date.GetType() != typeof(DateTime))
-            {
-                //sql connection
-                returnConn.baglantı();
-                DateTime enteredDate = DateTime.Parse(Customer_Join_Date.Text);
-                DateTime a = enteredDate;
-
-                string query = "INSERT INTO CUSTOMER_TABLE(CUSTOMER_NAME,CUSTOMER_ADDRESS,CUSTOMER_GENDER,CUSTOMER_PHONE,CUSTOMER_MAIL,CUSTOMER_JOIN_DATE) VALUES (@CUSTOMER_NAME,@CUSTOMER_ADDRESS,@CUSTOMER_GENDER,@CUSTOMER_PHONE,@SCUSTOMER_MAIL,@CUSTOMER_JOIN_DATE)";
-
-                SqlCommand command = new SqlCommand(query, returnConn.baglantı());
-                command.Parameters.Add("@CUSTOMER_NAME",    Customer_Name.Text);
-                command.Parameters.Add("@CUSTOMER_ADDRESS", Customer_Address.Text);
-                //sorun var çöz
-                command.Parameters.Add("@CUSTOMER_GENDER", Customer_Gender.SelectedItem.Value);
-                command.Parameters.Add("@CUSTOMER_PHONE", Convert.ToInt64(Customer_Phone.Text));
-                command.Parameters.Add("@SCUSTOMER_MAIL", Customer_Maıl.Text);
-                command.Parameters.Add("@CUSTOMER_JOIN_DATE", enteredDate);
-                command.ExecuteNonQuery();
-
-                //databind tekrardan
-                SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM CUSTOMER_TABLE", returnConn.baglantı());
-                sqlData.Fill(dtlb);
-                Customer_Grid.DataSource = dtlb;
-                Customer_Grid.DataBind();
-                returnConn.baglantı_kes();
-            }
-            else
-            {
-                //buraya hiç girmeyecek
-            }
         }
 
         protected void Customer_Grid_RowDeleting(object sender, GridViewDeleteEventArgs e)
@@ -126,9 +140,8 @@ namespace Stock_Management_System
             char customer_gender = Convert.ToChar(((TextBox)Customer_Grid.Rows[e.RowIndex].Cells[3].Controls[0]).Text);
             long customer_phone = Convert.ToInt64(((TextBox)Customer_Grid.Rows[e.RowIndex].Cells[4].Controls[0]).Text);
             string customer_mail = ((TextBox)Customer_Grid.Rows[e.RowIndex].Cells[5].Controls[0]).Text;
-            DateTime customer_join_date = DateTime.Parse(((TextBox)Customer_Grid.Rows[e.RowIndex].Cells[6].Controls[0]).Text);
 
-            string query = "UPDATE CUSTOMER_TABLE SET CUSTOMER_NAME='" + customer_name + "',CUSTOMER_ADDRESS='" + customer_address + "',CUSTOMER_GENDER='" + customer_gender + "',CUSTOMER_PHONE='" + customer_phone + "',CUSTOMER_MAIL='" + customer_mail + "',CUSTOMER_JOIN_DATE='" + customer_join_date + "' WHERE ID='" + ID + "'";
+            string query = "UPDATE CUSTOMER_TABLE SET CUSTOMER_NAME='" + customer_name + "',CUSTOMER_ADDRESS='" + customer_address + "',CUSTOMER_GENDER='" + customer_gender + "',CUSTOMER_PHONE='" + customer_phone + "',CUSTOMER_MAIL='" + customer_mail + "' WHERE ID='" + ID + "'";
 
             SqlCommand command = new SqlCommand(query, returnConn.baglantı());
             int t = command.ExecuteNonQuery();
