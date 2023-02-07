@@ -69,6 +69,19 @@
   <ItemGroup>
     <Content Include="Customer.aspx" />
     <Content Include="Dashboard.aspx" />
+    <Content Include="Dash\basicDashboard-master\images\admin.jpeg" />
+    <Content Include="Dash\basicDashboard-master\images\cust1.jpeg" />
+    <Content Include="Dash\basicDashboard-master\images\cust2.jpeg" />
+    <Content Include="Dash\basicDashboard-master\images\cust3.jpeg" />
+    <Content Include="Dash\basicDashboard-master\images\cust4.jpeg" />
+    <Content Include="Dash\basicDashboard-master\images\cust5.jpeg" />
+    <Content Include="Dash\basicDashboard-master\images\cust6.jpeg" />
+    <Content Include="Dash\basicDashboard-master\Dashb.aspx" />
+    <Content Include="Dash\basicDashboard-master\images\img1.jpeg" />
+    <Content Include="Dash\basicDashboard-master\images\title-img.png" />
+    <Content Include="Dash\basicDashboard-master\index.html" />
+    <Content Include="Dash\basicDashboard-master\script.js" />
+    <Content Include="Dash\basicDashboard-master\style.css" />
     <Content Include="Main.aspx" />
     <Content Include="Orders.aspx" />
     <Content Include="Supplier.aspx" />
@@ -88,6 +101,13 @@
     </Compile>
     <Compile Include="Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Dash\basicDashboard-master\Dashb.aspx.cs">
+      <DependentUpon>Dashb.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Dash\basicDashboard-master\Dashb.aspx.designer.cs">
+      <DependentUpon>Dashb.aspx</DependentUpon>
     </Compile>
     <Compile Include="Main.aspx.cs">
       <DependentUpon>Main.aspx</DependentUpon>
@@ -113,6 +133,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Dash\basicDashboard-master\README.md" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -21,7 +21,7 @@
             <div class="collapse navbar-collapse flex-row-reverse" id="navbarSupportedContent">
                 <ul class="navbar-nav">
                     <li class="nav-item pe-3">
-                        <a class="nav-link" href="Dashboard.aspx.aspx">DASHBOARD</a>
+                        <a class="nav-link" href="https://localhost:44343/Dash/basicDashboard-master/Dashb.aspx">DASHBOARD</a>
                     </li>
                     <li class="nav-item pe-3">
                         <a class="nav-link" href="Main.aspx">PRODUCT</a>

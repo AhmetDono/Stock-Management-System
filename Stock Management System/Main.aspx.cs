@@ -30,7 +30,6 @@ namespace Stock_Management_System
             }
         }
 
-
         //clear textbox
         void ClearInputs(ControlCollection ctrls)
         {
