@@ -13,7 +13,7 @@ namespace DataBase
         public SqlConnection getConnection()
         {
             SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = "Data Source=LAPTOP-0A9SGIVO\\SQLEXPRESS;Initial Catalog='Stock Management Systems';Integrated Security=True";
+            conn.ConnectionString = "#your database key";
             return conn;
         }
 
